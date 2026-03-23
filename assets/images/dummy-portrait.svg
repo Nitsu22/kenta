@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Dummy Portrait</title>
+  <desc id="desc">Placeholder portrait image.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7f917f" />
+      <stop offset="100%" stop-color="#d2ddcd" />
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg)" />
+  <circle cx="450" cy="420" r="200" fill="#ffffff38" />
+  <rect x="220" y="700" width="460" height="230" rx="20" fill="#ffffff2f" />
+  <text x="450" y="785" font-family="Arial, sans-serif" font-size="64" text-anchor="middle" fill="#ffffff">
+    DUMMY
+  </text>
+  <text x="450" y="860" font-family="Arial, sans-serif" font-size="44" text-anchor="middle" fill="#ffffff">
+    PORTRAIT
+  </text>
+</svg>

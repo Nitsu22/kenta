@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Dummy Detail Image</title>
+  <desc id="desc">Placeholder detail image.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8d7462" />
+      <stop offset="100%" stop-color="#d8c3b4" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)" />
+  <rect x="110" y="110" width="980" height="580" rx="22" fill="#ffffff25" />
+  <line x1="170" y1="240" x2="1030" y2="240" stroke="#ffffff88" stroke-width="8" />
+  <line x1="170" y1="340" x2="1030" y2="340" stroke="#ffffff66" stroke-width="8" />
+  <line x1="170" y1="440" x2="1030" y2="440" stroke="#ffffff55" stroke-width="8" />
+  <text x="600" y="560" font-family="Arial, sans-serif" font-size="64" text-anchor="middle" fill="#ffffff">
+    DUMMY DETAIL
+  </text>
+</svg>
