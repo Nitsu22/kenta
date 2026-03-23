@@ -37,3 +37,15 @@
 - 郵便番号入力時、`zipcloud` APIで住所自動入力を試行します（失敗時は手入力）。
 - 「情報を保存」をONにするとブラウザ `localStorage` に下書きを保存します。
 - ボット対策が必要な場合は Cloudflare Turnstile か reCAPTCHA を追加してください。
+
+## LINE BOT運用コマンド
+
+このリポジトリを操作するBOTは、以下の2コマンドで運用します。
+
+- `変更`
+  - `変更 <要望>` で、ホームページ本体（`index.html` / `styles/main.css` / `scripts/main.js` / `assets/`）を編集します。
+  - 編集後は `git add -A` -> `git commit` -> `git push origin main` まで自動実行します。
+- `相談`
+  - 返答のみ。編集・pushは行いません。
+
+詳細ルールは `AGENTS.md` を参照してください。
