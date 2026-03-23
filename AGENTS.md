@@ -117,7 +117,7 @@ Remote: `origin`
 反映したで。
 
 公開URL:
-https://kenta-imane.netlify.app/
+https://kenta-sable.vercel.app/
 
 ~~使い方~~
 変更 = サイトを直す
