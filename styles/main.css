@@ -278,6 +278,14 @@ body {
   padding: 20px;
 }
 
+.schedule-date {
+  margin: 0 0 12px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
 .schedule-list {
   display: grid;
   gap: 10px;
