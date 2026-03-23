@@ -346,7 +346,7 @@
       return;
     }
 
-    const targetDate = new Date(config.targetDate || "2026-06-20T11:00:00+09:00");
+    const targetDate = new Date(config.targetDate || "2026-07-11T11:00:00+09:00");
 
     const update = () => {
       const now = new Date();
