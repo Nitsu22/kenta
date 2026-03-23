@@ -1,11 +1,11 @@
 :root {
-  --bg: #f4f1e8;
-  --card: #f9f6ed;
-  --ink: #1c2e2d;
-  --muted: #526463;
-  --accent: #1f4f4a;
-  --accent-2: #e5cc77;
-  --line: #c8c2ad;
+  --bg: #f5f7ef;
+  --card: #fbfaf4;
+  --ink: #243630;
+  --muted: #5e746b;
+  --accent: #557a68;
+  --accent-2: #e8c9d4;
+  --line: #d7decf;
   --white: #ffffff;
   --error: #a43636;
 }
@@ -24,9 +24,10 @@ body {
   font-family: "Noto Sans JP", sans-serif;
   color: var(--ink);
   background:
-    radial-gradient(circle at 20% 0%, #fff8df 0%, transparent 40%),
-    radial-gradient(circle at 90% 20%, #ddece3 0%, transparent 30%),
-    var(--bg);
+    radial-gradient(circle at 12% 8%, rgba(255, 232, 240, 0.9) 0%, transparent 28%),
+    radial-gradient(circle at 88% 14%, rgba(217, 236, 224, 0.95) 0%, transparent 26%),
+    radial-gradient(circle at 50% 100%, rgba(232, 244, 232, 0.95) 0%, transparent 34%),
+    linear-gradient(180deg, #f9fbf5 0%, #f1f5ea 100%);
   line-height: 1.7;
 }
 
@@ -38,9 +39,10 @@ body {
 .hero {
   position: relative;
   min-height: 74vh;
-  border-radius: 18px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 24px 60px rgba(77, 104, 88, 0.2);
 }
 
 .hero-slides {
@@ -67,7 +69,9 @@ body {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(16, 42, 37, 0.75) 0%, rgba(16, 42, 37, 0.25) 40%, rgba(16, 42, 37, 0.15) 100%);
+  background:
+    linear-gradient(to top, rgba(40, 68, 56, 0.68) 0%, rgba(40, 68, 56, 0.2) 42%, rgba(40, 68, 56, 0.08) 100%),
+    linear-gradient(135deg, rgba(255, 219, 230, 0.16) 0%, transparent 38%);
 }
 
 .hero-content {
@@ -116,18 +120,19 @@ body {
 }
 
 .section-card {
-  background: linear-gradient(180deg, #faf7ef 0%, #f7f2e7 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 242, 0.94) 100%);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 22px;
   margin-top: 18px;
   padding: 28px;
-  box-shadow: 0 8px 25px rgba(39, 57, 52, 0.08);
+  box-shadow: 0 12px 30px rgba(92, 118, 101, 0.1);
+  backdrop-filter: blur(6px);
 }
 
 .section-card h2 {
   margin: 0 0 16px;
   font-family: "Montserrat", sans-serif;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   font-size: 1.35rem;
   color: var(--accent);
 }
@@ -196,12 +201,12 @@ body {
 }
 
 .host-card {
-  background: var(--white);
-  border: 1px solid #d7d1bf;
-  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbf6 100%);
+  border: 1px solid #dbe4d8;
+  border-radius: 18px;
   overflow: hidden;
   text-align: center;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 22px rgba(95, 121, 106, 0.1);
 }
 
 .host-card img {
@@ -236,8 +241,9 @@ body {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
-  border-radius: 12px;
-  border: 1px solid #d8d0bb;
+  border-radius: 18px;
+  border: 1px solid #dbe4d8;
+  box-shadow: 0 10px 22px rgba(95, 121, 106, 0.12);
   scroll-snap-align: center;
 }
 
@@ -297,9 +303,9 @@ body {
   align-items: center;
   gap: 12px;
   padding: 12px 14px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ffffff 0%, #f6f1e6 100%);
-  border: 1px solid #e2d8c1;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffffff 0%, #f3f8f2 58%, #fff4f7 100%);
+  border: 1px solid #d9e4d6;
 }
 
 .schedule-time {
@@ -308,11 +314,12 @@ body {
   align-items: center;
   min-height: 44px;
   border-radius: 999px;
-  background: var(--accent);
+  background: linear-gradient(135deg, #6b927d 0%, #557a68 100%);
   color: #fff;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
   letter-spacing: 0.08em;
+  box-shadow: 0 8px 18px rgba(85, 122, 104, 0.24);
 }
 
 .schedule-label {
@@ -322,9 +329,9 @@ body {
 
 .venue-block {
   margin-top: 16px;
-  border: 1px solid #d9d4c4;
-  border-radius: 12px;
-  background: #fffcf5;
+  border: 1px solid #d8e2d4;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fffefe 0%, #f4f8f2 100%);
   padding: 16px;
 }
 
@@ -365,8 +372,8 @@ body {
 
 .request-block {
   margin-top: 16px;
-  border-top: 1px solid #d7d0bc;
-  border-bottom: 1px solid #d7d0bc;
+  border-top: 1px solid #d8e2d4;
+  border-bottom: 1px solid #d8e2d4;
   padding: 16px 0;
   text-align: center;
   font-family: "Shippori Mincho", serif;
