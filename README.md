@@ -40,11 +40,13 @@
 
 ## LINE BOT運用コマンド
 
-このリポジトリを操作するBOTは、以下の2コマンドで運用します。
+このリポジトリを操作するBOTは、以下の3コマンドで運用します。
 
 - `変更`
   - `変更 <要望>` で、ホームページ本体（`index.html` / `styles/main.css` / `scripts/main.js` / `assets/`）を編集します。
-  - 編集後は `git add -A` -> `git commit` -> `git push origin main` まで自動実行します。
+- `反映`
+  - 編集済みの内容を `git add -A` -> `git commit` -> `git push origin main` で反映します。
+  - `反映 <コミットメッセージ>` でメッセージ指定可能です。
 - `相談`
   - 返答のみ。編集・pushは行いません。
 
