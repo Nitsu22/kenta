@@ -53,3 +53,6 @@
   - 返答のみ。編集・pushは行いません。
 
 詳細ルールは `AGENTS.md` を参照してください。
+
+openclaw gateway run
+cloudflared tunnel --url http://127.0.0.1:18789 --protocol http2
