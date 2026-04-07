@@ -3,7 +3,6 @@
 
   const form = document.getElementById("rsvp-form");
   const relationSelect = document.getElementById("relation");
-  const subRelationSelect = document.getElementById("sub_relation");
   const companionsContainer = document.getElementById("companions");
   const addCompanionButton = document.getElementById("add-companion");
   const postcodeInput = document.getElementById("postcode");
@@ -12,45 +11,11 @@
   const formStatus = document.getElementById("form-status");
   const submitButton = document.getElementById("submit-btn");
 
-  if (!form || !relationSelect || !subRelationSelect) {
+  if (!form || !relationSelect) {
     return;
   }
 
   const draftStorageKey = config.draftStorageKey || "museum_invitation_form_v1";
-  const relationMap = {
-    親族: [
-      "父",
-      "母",
-      "兄",
-      "弟",
-      "姉",
-      "妹",
-      "義姉",
-      "義兄",
-      "義妹",
-      "義弟",
-      "祖父",
-      "祖母",
-      "伯父",
-      "伯母",
-      "叔父",
-      "叔母",
-      "従兄",
-      "従姉",
-      "従弟",
-      "従妹",
-      "甥",
-      "姪",
-      "親戚",
-      "配偶者",
-      "息子",
-      "娘"
-    ],
-    友人: ["幼なじみ", "友人", "知人", "大学友人", "高校友人", "中学友人"],
-    学校: ["大学先輩", "高校先輩", "中学先輩", "大学後輩", "高校後輩", "中学後輩", "恩師"],
-    会社: ["社長", "上司", "先輩", "同僚", "元同僚", "後輩"],
-    その他: ["その他"]
-  };
 
   let companionIndex = 0;
 
@@ -65,34 +30,6 @@
     }
   }
 
-  function createSelectOptions(selectElement, options, placeholder) {
-    selectElement.innerHTML = "";
-    const head = document.createElement("option");
-    head.value = "";
-    head.textContent = placeholder;
-    selectElement.appendChild(head);
-
-    options.forEach((option) => {
-      const item = document.createElement("option");
-      item.value = option;
-      item.textContent = option;
-      selectElement.appendChild(item);
-    });
-  }
-
-  function updateSubRelationOptions(selectedValue) {
-    const relation = relationSelect.value;
-    if (!relation || !relationMap[relation]) {
-      createSelectOptions(subRelationSelect, [], "先に「ご関係」を選択してください");
-      return;
-    }
-
-    createSelectOptions(subRelationSelect, relationMap[relation], "選択してください");
-
-    if (selectedValue && relationMap[relation].includes(selectedValue)) {
-      subRelationSelect.value = selectedValue;
-    }
-  }
 
   function buildCompanionRow(values) {
     const row = document.createElement("div");
@@ -185,7 +122,6 @@
       attendance_status: String(formData.get("attendance_status") || "attend"),
       stay_0710: String(formData.get("stay_0710") || "希望する"),
       relation: String(formData.get("relation") || ""),
-      sub_relation: String(formData.get("sub_relation") || ""),
       last_name: String(formData.get("last_name") || ""),
       first_name: String(formData.get("first_name") || ""),
       last_name_kana: String(formData.get("last_name_kana") || ""),
@@ -197,7 +133,6 @@
       email: String(formData.get("email") || ""),
       allergies: formData.getAll("allergies").map((value) => String(value)),
       allergy_note: String(formData.get("allergy_note") || ""),
-      message_image_url: String(formData.get("message_image_url") || ""),
       message: String(formData.get("message") || ""),
       companions: getCompanions(),
       save_info: true
@@ -208,14 +143,12 @@
   function applyDraft() {
     const raw = localStorage.getItem(draftStorageKey);
     if (!raw) {
-      updateSubRelationOptions("");
       return;
     }
 
     try {
       const data = JSON.parse(raw);
       if (!data || typeof data !== "object") {
-        updateSubRelationOptions("");
         return;
       }
 
@@ -225,7 +158,6 @@
       setRadioValue("gender", data.gender || "male");
 
       relationSelect.value = data.relation || "";
-      updateSubRelationOptions(data.sub_relation || "");
 
       const valueFieldMap = {
         last_name: "last_name",
@@ -237,7 +169,6 @@
         address: "address",
         email: "email",
         allergy_note: "allergy_note",
-        message_image_url: "message_image_url",
         message: "message"
       };
 
@@ -258,7 +189,7 @@
       const companionValues = Array.isArray(data.companions) ? data.companions : [];
       companionValues.forEach((item) => buildCompanionRow(item));
     } catch (_error) {
-      updateSubRelationOptions("");
+      // 保存データが壊れている場合は無視。
     }
   }
 
@@ -374,7 +305,7 @@
     setInterval(update, 1000);
   }
 
-  async function submitToSupabase(payload) {
+  async function submitToSupabase(payload, imageFile) {
     if (typeof window.createSupabaseClient !== "function") {
       throw new Error("Supabaseクライアントが初期化されていません。");
     }
@@ -384,8 +315,26 @@
       throw new Error(initError);
     }
 
+    let messageImageUrl = null;
+    if (imageFile && imageFile.size > 0) {
+      const fileExt = imageFile.name.includes(".") ? imageFile.name.split('.').pop() : "jpg";
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+      const bucket = config.supabaseImageBucket || "message-images";
+      const { error: uploadError } = await client.storage
+        .from(bucket)
+        .upload(fileName, imageFile, { upsert: false });
+      if (uploadError) {
+        throw uploadError;
+      }
+      const { data: publicUrlData } = client.storage.from(bucket).getPublicUrl(fileName);
+      messageImageUrl = publicUrlData?.publicUrl || null;
+    }
+
     const table = config.supabaseTable || "invitation_responses";
-    const { error } = await client.from(table).insert(payload);
+    const { error } = await client.from(table).insert({
+      ...payload,
+      message_image_url: messageImageUrl
+    });
     if (error) {
       throw error;
     }
@@ -401,12 +350,12 @@
     }
 
     const formData = new FormData(form);
+    const imageFile = formData.get("message_image_file");
     const payload = {
       source_url: window.location.href,
       attendance_status: String(formData.get("attendance_status") || ""),
       stay_0710: String(formData.get("stay_0710") || ""),
       relation: String(formData.get("relation") || ""),
-      sub_relation: String(formData.get("sub_relation") || ""),
       last_name: String(formData.get("last_name") || "").trim(),
       first_name: String(formData.get("first_name") || "").trim(),
       last_name_kana: String(formData.get("last_name_kana") || "").trim(),
@@ -419,7 +368,6 @@
       allergies: formData.getAll("allergies").map((item) => String(item)),
       allergy_note: String(formData.get("allergy_note") || "").trim() || null,
       companions: getCompanions(),
-      message_image_url: String(formData.get("message_image_url") || "").trim() || null,
       message: String(formData.get("message") || "").trim() || null,
       save_info: formData.get("save_info") === "1",
       metadata: {
@@ -431,7 +379,7 @@
 
     try {
       submitButton.disabled = true;
-      await submitToSupabase(payload);
+      await submitToSupabase(payload, imageFile instanceof File ? imageFile : null);
 
       if (payload.save_info) {
         saveDraft();
@@ -442,7 +390,6 @@
       setStatus("送信が完了しました。ご回答ありがとうございました。", "success");
       form.reset();
       resetCompanions();
-      updateSubRelationOptions("");
       window.scrollTo({ top: form.offsetTop - 40, behavior: "smooth" });
     } catch (error) {
       setStatus(`送信に失敗しました: ${error.message || "不明なエラー"}`, "error");
@@ -452,7 +399,6 @@
   }
 
   relationSelect.addEventListener("change", () => {
-    updateSubRelationOptions("");
     if (saveInfoCheckbox.checked) {
       saveDraft();
     }

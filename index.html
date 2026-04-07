@@ -239,12 +239,6 @@
                 <option value="その他">その他</option>
               </select>
             </div>
-            <div class="field">
-              <label for="sub_relation">間柄（新郎新婦から見た）</label>
-              <select id="sub_relation" name="sub_relation" required>
-                <option value="">先に「ご関係」を選択してください</option>
-              </select>
-            </div>
           </div>
 
           <div class="form-grid two">
@@ -389,12 +383,12 @@
           </fieldset>
 
           <div class="field">
-            <label for="message_image_url">メッセージ画像URL（任意）</label>
+            <label for="message_image_file">メッセージ画像（任意）</label>
             <input
-              id="message_image_url"
-              name="message_image_url"
-              type="url"
-              placeholder="https://example.com/message-image.jpg"
+              id="message_image_file"
+              name="message_image_file"
+              type="file"
+              accept="image/*"
             />
           </div>
 
