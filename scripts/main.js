@@ -183,7 +183,7 @@
     const formData = new FormData(form);
     const payload = {
       attendance_status: String(formData.get("attendance_status") || "attend"),
-      guest_type: String(formData.get("guest_type") || "groom"),
+      stay_0710: String(formData.get("stay_0710") || "希望する"),
       relation: String(formData.get("relation") || ""),
       sub_relation: String(formData.get("sub_relation") || ""),
       last_name: String(formData.get("last_name") || ""),
@@ -221,7 +221,7 @@
 
       saveInfoCheckbox.checked = Boolean(data.save_info);
       setRadioValue("attendance_status", data.attendance_status || "attend");
-      setRadioValue("guest_type", data.guest_type || "groom");
+      setRadioValue("stay_0710", data.stay_0710 || "希望する");
       setRadioValue("gender", data.gender || "male");
 
       relationSelect.value = data.relation || "";
@@ -404,7 +404,7 @@
     const payload = {
       source_url: window.location.href,
       attendance_status: String(formData.get("attendance_status") || ""),
-      guest_type: String(formData.get("guest_type") || ""),
+      stay_0710: String(formData.get("stay_0710") || ""),
       relation: String(formData.get("relation") || ""),
       sub_relation: String(formData.get("sub_relation") || ""),
       last_name: String(formData.get("last_name") || "").trim(),
