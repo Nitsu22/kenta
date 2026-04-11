@@ -327,6 +327,10 @@ body {
   color: var(--muted);
 }
 
+.schedule-date-sub {
+  margin-top: 18px;
+}
+
 .schedule-list {
   display: grid;
   gap: 10px;
@@ -433,6 +437,22 @@ body {
 
 .shuttle-card p + p {
   margin-top: 4px;
+}
+
+.shuttle-figure {
+  margin: 12px 0 0;
+}
+
+.shuttle-image {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #d8e2d4;
+}
+
+.shuttle-figure figcaption {
+  margin-top: 8px;
+  font-size: 0.92rem;
+  color: var(--muted);
 }
 
 .request-block {
