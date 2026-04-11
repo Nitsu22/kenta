@@ -401,6 +401,17 @@ body {
   padding: 16px;
 }
 
+.shuttle-group + .shuttle-group {
+  margin-top: 18px;
+}
+
+.shuttle-group-label {
+  margin: 0 0 10px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
 .shuttle-grid {
   display: grid;
   gap: 12px;
@@ -548,21 +559,6 @@ legend {
   gap: 6px;
 }
 
-.bus-usage-list {
-  display: grid;
-  gap: 14px;
-}
-
-.bus-usage-item {
-  display: grid;
-  gap: 8px;
-}
-
-.bus-usage-label {
-  margin: 0;
-  font-weight: 600;
-  color: var(--ink);
-}
 
 label {
   font-weight: 500;

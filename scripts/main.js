@@ -121,10 +121,7 @@
     const payload = {
       attendance_status: String(formData.get("attendance_status") || "attend"),
       stay_0710: String(formData.get("stay_0710") || "希望する"),
-      bus_outbound_0710_1400: String(formData.get("bus_outbound_0710_1400") || "利用する"),
-      bus_return_0710_1845: String(formData.get("bus_return_0710_1845") || "利用する"),
-      bus_return_0711_0850: String(formData.get("bus_return_0711_0850") || "利用する"),
-      bus_return_0711_1050: String(formData.get("bus_return_0711_1050") || "利用する"),
+      bus_use: String(formData.get("bus_use") || "希望する"),
       relation: String(formData.get("relation") || ""),
       last_name: String(formData.get("last_name") || ""),
       first_name: String(formData.get("first_name") || ""),
@@ -159,10 +156,7 @@
       saveInfoCheckbox.checked = Boolean(data.save_info);
       setRadioValue("attendance_status", data.attendance_status || "attend");
       setRadioValue("stay_0710", data.stay_0710 || "希望する");
-      setRadioValue("bus_outbound_0710_1400", data.bus_outbound_0710_1400 || "利用する");
-      setRadioValue("bus_return_0710_1845", data.bus_return_0710_1845 || "利用する");
-      setRadioValue("bus_return_0711_0850", data.bus_return_0711_0850 || "利用する");
-      setRadioValue("bus_return_0711_1050", data.bus_return_0711_1050 || "利用する");
+      setRadioValue("bus_use", data.bus_use || "希望する");
       setRadioValue("gender", data.gender || "male");
 
       relationSelect.value = data.relation || "";
@@ -363,10 +357,7 @@
       source_url: window.location.href,
       attendance_status: String(formData.get("attendance_status") || ""),
       stay_0710: String(formData.get("stay_0710") || ""),
-      bus_outbound_0710_1400: String(formData.get("bus_outbound_0710_1400") || ""),
-      bus_return_0710_1845: String(formData.get("bus_return_0710_1845") || ""),
-      bus_return_0711_0850: String(formData.get("bus_return_0711_0850") || ""),
-      bus_return_0711_1050: String(formData.get("bus_return_0711_1050") || ""),
+      bus_use: String(formData.get("bus_use") || ""),
       relation: String(formData.get("relation") || ""),
       last_name: String(formData.get("last_name") || "").trim(),
       first_name: String(formData.get("first_name") || "").trim(),
