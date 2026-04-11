@@ -95,10 +95,7 @@
       stay_0710: String(formData.get("stay_0710") || "希望する"),
       bus_use: String(formData.get("bus_use") || "希望する"),
       guest_name: String(formData.get("guest_name") || ""),
-      last_name_kana: String(formData.get("last_name_kana") || ""),
-      first_name_kana: String(formData.get("first_name_kana") || ""),
       telephone: String(formData.get("telephone") || ""),
-      postcode: String(formData.get("postcode") || ""),
       email: String(formData.get("email") || ""),
       allergy_note: String(formData.get("allergy_note") || ""),
       companions: getCompanions(),
@@ -126,10 +123,7 @@
 
       const valueFieldMap = {
         guest_name: "guest_name",
-        last_name_kana: "last_name_kana",
-        first_name_kana: "first_name_kana",
         telephone: "telephone",
-        postcode: "postcode",
         email: "email",
         allergy_note: "allergy_note"
       };
@@ -150,29 +144,6 @@
   }
 
   function installCustomValidationMessages() {
-    const kanaInputs = form.querySelectorAll('input[name="last_name_kana"], input[name="first_name_kana"]');
-    kanaInputs.forEach((input) => {
-      input.addEventListener("input", () => {
-        const regex = /^[ァ-ヶー]+$/;
-        if (input.value && !regex.test(input.value)) {
-          input.setCustomValidity("カナ入力のみ可能です。");
-        } else {
-          input.setCustomValidity("");
-        }
-      });
-    });
-
-    if (postcodeInput) {
-      postcodeInput.addEventListener("input", () => {
-        const regex = /^\d{7}$/;
-        if (postcodeInput.value && !regex.test(postcodeInput.value)) {
-          postcodeInput.setCustomValidity("ハイフンなし7桁で入力してください。");
-        } else {
-          postcodeInput.setCustomValidity("");
-        }
-      });
-    }
-
     const telephoneInput = document.getElementById("telephone");
     if (telephoneInput) {
       telephoneInput.addEventListener("input", () => {
@@ -288,10 +259,7 @@
       stay_0710: String(formData.get("stay_0710") || ""),
       bus_use: String(formData.get("bus_use") || ""),
       guest_name: String(formData.get("guest_name") || "").trim(),
-      last_name_kana: String(formData.get("last_name_kana") || "").trim(),
-      first_name_kana: String(formData.get("first_name_kana") || "").trim(),
       telephone: String(formData.get("telephone") || "").trim(),
-      postcode: String(formData.get("postcode") || "").trim(),
       email: String(formData.get("email") || "").trim(),
       allergy_note: String(formData.get("allergy_note") || "").trim() || null,
       companions: getCompanions(),

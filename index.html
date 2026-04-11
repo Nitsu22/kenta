@@ -236,60 +236,18 @@
             />
           </div>
 
-          <div class="form-grid two">
-            <div class="field">
-              <label for="last_name_kana">姓（フリガナ）</label>
-              <input
-                id="last_name_kana"
-                name="last_name_kana"
-                type="text"
-                placeholder="タナカ"
-                pattern="^[ァ-ヶー]+$"
-                maxlength="30"
-                required
-              />
-            </div>
-            <div class="field">
-              <label for="first_name_kana">名（フリガナ）</label>
-              <input
-                id="first_name_kana"
-                name="first_name_kana"
-                type="text"
-                placeholder="タロウ"
-                pattern="^[ァ-ヶー]+$"
-                maxlength="30"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="form-grid two">
-            <div class="field">
-              <label for="telephone">電話番号（ハイフンなし）</label>
-              <input
-                id="telephone"
-                name="telephone"
-                type="tel"
-                inputmode="numeric"
-                pattern="^\d{8,11}$"
-                placeholder="ハイフンなしでご入力ください"
-                maxlength="11"
-                required
-              />
-            </div>
-            <div class="field">
-              <label for="postcode">郵便番号（ハイフンなし）</label>
-              <input
-                id="postcode"
-                name="postcode"
-                type="text"
-                inputmode="numeric"
-                pattern="^\d{7}$"
-                placeholder="ハイフンなしでご入力ください"
-                maxlength="7"
-                required
-              />
-            </div>
+          <div class="field">
+            <label for="telephone">電話番号（ハイフンなし）</label>
+            <input
+              id="telephone"
+              name="telephone"
+              type="tel"
+              inputmode="numeric"
+              pattern="^\d{8,11}$"
+              placeholder="ハイフンなしでご入力ください"
+              maxlength="11"
+              required
+            />
           </div>
 
           <div class="field">
@@ -308,13 +266,13 @@
             <legend>アレルギー</legend>
             <div class="field">
               <label for="allergy_note">アレルギー補足（任意）</label>
-              <textarea
+              <input
                 id="allergy_note"
                 name="allergy_note"
-                rows="3"
+                type="text"
                 maxlength="500"
                 placeholder="えび、卵 など"
-              ></textarea>
+              />
             </div>
           </fieldset>
 
