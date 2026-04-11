@@ -56,6 +56,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   opacity: 0;
   transform: scale(1.05);
   transition: opacity 1.2s ease, transform 6s ease;
@@ -78,21 +79,17 @@ body {
   position: relative;
   z-index: 1;
   min-height: 74vh;
-  display: grid;
-  place-content: center;
-  text-align: center;
-  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  text-align: left;
+  padding: 32px;
   color: var(--white);
 }
 
-.hero-date {
-  margin: 0;
-  letter-spacing: 0.3em;
-  font-size: 0.95rem;
-}
-
 .hero h1 {
-  margin: 16px 0 6px;
+  margin: 0 0 8px;
   font-family: "Montserrat", sans-serif;
   font-size: clamp(2rem, 4vw, 3.2rem);
   letter-spacing: 0.06em;
@@ -108,7 +105,7 @@ body {
   display: inline-flex;
   flex-direction: column;
   gap: 6px;
-  margin: 0 auto 28px;
+  margin: 0 0 22px;
   padding: 14px 20px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.16);
@@ -134,7 +131,6 @@ body {
 
 .hero-link {
   display: inline-block;
-  margin-inline: auto;
   color: var(--white);
   text-decoration: none;
   border: 1px solid rgba(255, 255, 255, 0.8);

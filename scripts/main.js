@@ -292,12 +292,6 @@
     }
   }
 
-  relationSelect.addEventListener("change", () => {
-    if (saveInfoCheckbox.checked) {
-      saveDraft();
-    }
-  });
-
   addCompanionButton?.addEventListener("click", () => {
     buildCompanionRow();
     if (saveInfoCheckbox.checked) {
