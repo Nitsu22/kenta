@@ -223,29 +223,17 @@
             </div>
           </fieldset>
 
-          <div class="form-grid two">
-            <div class="field">
-              <label for="relation">ご関係（新郎新婦から見た）</label>
-              <select id="relation" name="relation" required>
-                <option value="">選択してください</option>
-                <option value="親族">親族</option>
-                <option value="友人">友人</option>
-                <option value="学校">学校</option>
-                <option value="会社">会社</option>
-                <option value="その他">その他</option>
-              </select>
-            </div>
-          </div>
 
-          <div class="form-grid two">
-            <div class="field">
-              <label for="last_name">姓</label>
-              <input id="last_name" name="last_name" type="text" placeholder="田中" maxlength="30" required />
-            </div>
-            <div class="field">
-              <label for="first_name">名</label>
-              <input id="first_name" name="first_name" type="text" placeholder="太郎" maxlength="30" required />
-            </div>
+          <div class="field">
+            <label for="guest_name">お名前</label>
+            <input
+              id="guest_name"
+              name="guest_name"
+              type="text"
+              placeholder="田中 太郎"
+              maxlength="60"
+              required
+            />
           </div>
 
           <div class="form-grid two">
@@ -274,24 +262,6 @@
               />
             </div>
           </div>
-
-          <fieldset>
-            <legend>性別</legend>
-            <div class="chip-group">
-              <label class="chip">
-                <input type="radio" name="gender" value="male" checked required />
-                <span>男性</span>
-              </label>
-              <label class="chip">
-                <input type="radio" name="gender" value="female" required />
-                <span>女性</span>
-              </label>
-              <label class="chip">
-                <input type="radio" name="gender" value="other" required />
-                <span>その他</span>
-              </label>
-            </div>
-          </fieldset>
 
           <div class="form-grid two">
             <div class="field">
@@ -323,18 +293,6 @@
           </div>
 
           <div class="field">
-            <label for="address">ご住所</label>
-            <input
-              id="address"
-              name="address"
-              type="text"
-              placeholder="東京都千代田区千代田1-1"
-              maxlength="191"
-              required
-            />
-          </div>
-
-          <div class="field">
             <label for="email">メールアドレス</label>
             <input
               id="email"
@@ -348,26 +306,14 @@
 
           <fieldset>
             <legend>アレルギー</legend>
-            <div class="allergy-grid">
-              <label><input type="checkbox" name="allergies" value="牛肉" /> 牛肉</label>
-              <label><input type="checkbox" name="allergies" value="豚肉" /> 豚肉</label>
-              <label><input type="checkbox" name="allergies" value="鶏肉" /> 鶏肉</label>
-              <label><input type="checkbox" name="allergies" value="卵" /> 卵</label>
-              <label><input type="checkbox" name="allergies" value="乳" /> 乳</label>
-              <label><input type="checkbox" name="allergies" value="小麦" /> 小麦</label>
-              <label><input type="checkbox" name="allergies" value="そば" /> そば</label>
-              <label><input type="checkbox" name="allergies" value="えび" /> えび</label>
-              <label><input type="checkbox" name="allergies" value="かに" /> かに</label>
-              <label><input type="checkbox" name="allergies" value="ナッツ" /> ナッツ</label>
-            </div>
             <div class="field">
-              <label for="allergy_note">補足</label>
+              <label for="allergy_note">アレルギー補足（任意）</label>
               <textarea
                 id="allergy_note"
                 name="allergy_note"
                 rows="3"
                 maxlength="500"
-                placeholder="上記以外のアレルギーや詳細があればご記入ください"
+                placeholder="えび、卵 など"
               ></textarea>
             </div>
           </fieldset>
@@ -377,27 +323,6 @@
             <div id="companions" class="companion-list"></div>
             <button type="button" id="add-companion" class="secondary-btn">お連れ様を追加</button>
           </fieldset>
-
-          <div class="field">
-            <label for="message_image_file">メッセージ画像（任意）</label>
-            <input
-              id="message_image_file"
-              name="message_image_file"
-              type="file"
-              accept="image/*"
-            />
-          </div>
-
-          <div class="field">
-            <label for="message">メッセージ</label>
-            <textarea
-              id="message"
-              name="message"
-              rows="5"
-              maxlength="500"
-              placeholder="お祝いメッセージ等をご自由に記入ください"
-            ></textarea>
-          </div>
 
           <label class="save-toggle">
             <input type="checkbox" id="save_info" name="save_info" value="1" />

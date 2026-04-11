@@ -2,16 +2,14 @@
   const config = window.APP_CONFIG || {};
 
   const form = document.getElementById("rsvp-form");
-  const relationSelect = document.getElementById("relation");
   const companionsContainer = document.getElementById("companions");
   const addCompanionButton = document.getElementById("add-companion");
   const postcodeInput = document.getElementById("postcode");
-  const addressInput = document.getElementById("address");
   const saveInfoCheckbox = document.getElementById("save_info");
   const formStatus = document.getElementById("form-status");
   const submitButton = document.getElementById("submit-btn");
 
-  if (!form || !relationSelect) {
+  if (!form) {
     return;
   }
 
@@ -42,36 +40,12 @@
         <label>お名前</label>
         <input type="text" class="companion-name" maxlength="60" placeholder="山田 花子" value="${values?.name ?? ""}">
       </div>
-      <div class="field">
-        <label>区分</label>
-        <select class="companion-type">
-          <option value="ご成人">ご成人</option>
-          <option value="お子様">お子様</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>性別</label>
-        <select class="companion-gender">
-          <option value="男性">男性</option>
-          <option value="女性">女性</option>
-          <option value="その他">その他</option>
-        </select>
-      </div>
       <button type="button" class="remove-btn">削除</button>
       <div class="field">
         <label>アレルギー補足（任意）</label>
         <input type="text" class="companion-allergy" maxlength="200" placeholder="えび、卵" value="${values?.allergy ?? ""}">
       </div>
     `;
-
-    const typeSelect = row.querySelector(".companion-type");
-    const genderSelect = row.querySelector(".companion-gender");
-    if (typeSelect && values?.type) {
-      typeSelect.value = values.type;
-    }
-    if (genderSelect && values?.gender) {
-      genderSelect.value = values.gender;
-    }
 
     const removeButton = row.querySelector(".remove-btn");
     if (removeButton) {
@@ -91,10 +65,8 @@
     return Array.from(rows)
       .map((row) => {
         const name = row.querySelector(".companion-name")?.value.trim() || "";
-        const type = row.querySelector(".companion-type")?.value || "ご成人";
-        const gender = row.querySelector(".companion-gender")?.value || "その他";
         const allergy = row.querySelector(".companion-allergy")?.value.trim() || "";
-        return { name, type, gender, allergy };
+        return { name, allergy };
       })
       .filter((item) => item.name.length > 0 || item.allergy.length > 0);
   }
@@ -122,19 +94,13 @@
       attendance_status: String(formData.get("attendance_status") || "attend"),
       stay_0710: String(formData.get("stay_0710") || "希望する"),
       bus_use: String(formData.get("bus_use") || "希望する"),
-      relation: String(formData.get("relation") || ""),
-      last_name: String(formData.get("last_name") || ""),
-      first_name: String(formData.get("first_name") || ""),
+      guest_name: String(formData.get("guest_name") || ""),
       last_name_kana: String(formData.get("last_name_kana") || ""),
       first_name_kana: String(formData.get("first_name_kana") || ""),
-      gender: String(formData.get("gender") || "male"),
       telephone: String(formData.get("telephone") || ""),
       postcode: String(formData.get("postcode") || ""),
-      address: String(formData.get("address") || ""),
       email: String(formData.get("email") || ""),
-      allergies: formData.getAll("allergies").map((value) => String(value)),
       allergy_note: String(formData.get("allergy_note") || ""),
-      message: String(formData.get("message") || ""),
       companions: getCompanions(),
       save_info: true
     };
@@ -157,21 +123,15 @@
       setRadioValue("attendance_status", data.attendance_status || "attend");
       setRadioValue("stay_0710", data.stay_0710 || "希望する");
       setRadioValue("bus_use", data.bus_use || "希望する");
-      setRadioValue("gender", data.gender || "male");
-
-      relationSelect.value = data.relation || "";
 
       const valueFieldMap = {
-        last_name: "last_name",
-        first_name: "first_name",
+        guest_name: "guest_name",
         last_name_kana: "last_name_kana",
         first_name_kana: "first_name_kana",
         telephone: "telephone",
         postcode: "postcode",
-        address: "address",
         email: "email",
-        allergy_note: "allergy_note",
-        message: "message"
+        allergy_note: "allergy_note"
       };
 
       Object.entries(valueFieldMap).forEach(([id, key]) => {
@@ -179,12 +139,6 @@
         if (field && typeof data[key] === "string") {
           field.value = data[key];
         }
-      });
-
-      const savedAllergies = Array.isArray(data.allergies) ? data.allergies : [];
-      const allergyInputs = form.querySelectorAll('input[name="allergies"]');
-      allergyInputs.forEach((input) => {
-        input.checked = savedAllergies.includes(input.value);
       });
 
       resetCompanions();
@@ -229,30 +183,6 @@
           telephoneInput.setCustomValidity("");
         }
       });
-    }
-  }
-
-  async function tryFillAddressByPostcode() {
-    if (!postcodeInput || !addressInput) {
-      return;
-    }
-    const zipcode = postcodeInput.value.replace(/\D/g, "");
-    if (zipcode.length !== 7) {
-      return;
-    }
-
-    try {
-      const response = await fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipcode}`);
-      if (!response.ok) {
-        return;
-      }
-      const body = await response.json();
-      const result = body?.results?.[0];
-      if (result) {
-        addressInput.value = `${result.address1}${result.address2}${result.address3}`;
-      }
-    } catch (_error) {
-      // 郵便番号APIの失敗時は無視し、手入力を継続。
     }
   }
 
@@ -352,26 +282,19 @@
     }
 
     const formData = new FormData(form);
-    const imageFile = formData.get("message_image_file");
     const payload = {
       source_url: window.location.href,
       attendance_status: String(formData.get("attendance_status") || ""),
       stay_0710: String(formData.get("stay_0710") || ""),
       bus_use: String(formData.get("bus_use") || ""),
-      relation: String(formData.get("relation") || ""),
-      last_name: String(formData.get("last_name") || "").trim(),
-      first_name: String(formData.get("first_name") || "").trim(),
+      guest_name: String(formData.get("guest_name") || "").trim(),
       last_name_kana: String(formData.get("last_name_kana") || "").trim(),
       first_name_kana: String(formData.get("first_name_kana") || "").trim(),
-      gender: String(formData.get("gender") || ""),
       telephone: String(formData.get("telephone") || "").trim(),
       postcode: String(formData.get("postcode") || "").trim(),
-      address: String(formData.get("address") || "").trim(),
       email: String(formData.get("email") || "").trim(),
-      allergies: formData.getAll("allergies").map((item) => String(item)),
       allergy_note: String(formData.get("allergy_note") || "").trim() || null,
       companions: getCompanions(),
-      message: String(formData.get("message") || "").trim() || null,
       save_info: formData.get("save_info") === "1",
       metadata: {
         language: navigator.language,
@@ -382,7 +305,7 @@
 
     try {
       submitButton.disabled = true;
-      await submitToSupabase(payload, imageFile instanceof File ? imageFile : null);
+      await submitToSupabase(payload, null);
 
       if (payload.save_info) {
         saveDraft();
@@ -435,9 +358,6 @@
   });
 
   form.addEventListener("submit", onSubmit);
-
-  postcodeInput?.addEventListener("blur", tryFillAddressByPostcode);
-  postcodeInput?.addEventListener("change", tryFillAddressByPostcode);
 
   applyDraft();
   installCustomValidationMessages();
