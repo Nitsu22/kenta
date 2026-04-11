@@ -407,6 +407,46 @@ body {
   font-family: "Shippori Mincho", serif;
 }
 
+.dresscode-block {
+  padding: 22px 0 0;
+  text-align: left;
+}
+
+.dresscode-lead {
+  margin-bottom: 18px;
+}
+
+.dresscode-title {
+  margin: 0 0 10px;
+  font-family: "Shippori Mincho", serif;
+  font-size: 1.25rem;
+  color: var(--accent);
+  text-align: center;
+}
+
+.dresscode-lead p,
+.dresscode-card p {
+  margin: 0;
+}
+
+.dresscode-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.dresscode-card {
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid #d8e2d4;
+}
+
+.dresscode-card h4 {
+  margin: 0 0 8px;
+  font-size: 0.98rem;
+  color: var(--accent);
+}
+
 .deadline-note {
   margin: 0 0 16px;
   color: var(--muted);
