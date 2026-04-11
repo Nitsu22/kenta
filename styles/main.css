@@ -81,11 +81,25 @@ body {
   min-height: 74vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: stretch;
   text-align: left;
   padding: 32px;
   color: var(--white);
+}
+
+.hero-top-copy,
+.hero-bottom-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-top-copy {
+  align-items: flex-start;
+}
+
+.hero-bottom-copy {
+  align-items: flex-start;
 }
 
 .hero h1 {
@@ -93,19 +107,21 @@ body {
   font-family: "Montserrat", sans-serif;
   font-size: clamp(2rem, 4vw, 3.2rem);
   letter-spacing: 0.06em;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 }
 
 .hero-name {
-  margin: 0 0 18px;
+  margin: 0;
   font-size: 0.95rem;
   letter-spacing: 0.2em;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 }
 
 .hero-schedule-highlight {
   display: inline-flex;
   flex-direction: column;
   gap: 6px;
-  margin: 0 0 22px;
+  margin: 0 0 18px;
   padding: 14px 20px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.16);
@@ -443,6 +459,10 @@ body {
   margin: 12px 0 0;
 }
 
+.shuttle-image-link {
+  display: block;
+}
+
 .shuttle-image {
   width: 100%;
   border-radius: 12px;
@@ -452,7 +472,12 @@ body {
 .shuttle-figure figcaption {
   margin-top: 8px;
   font-size: 0.92rem;
+}
+
+.shuttle-caption-link {
   color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .request-block {
