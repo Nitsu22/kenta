@@ -449,40 +449,26 @@ body {
   text-align: left;
 }
 
-.dresscode-lead {
-  margin-bottom: 18px;
-}
-
 .dresscode-title {
-  margin: 0 0 10px;
+  margin: 0 0 14px;
   font-family: "Shippori Mincho", serif;
-  font-size: 1.25rem;
+  font-size: 1.16rem;
   color: var(--accent);
   text-align: center;
 }
 
-.dresscode-lead p,
-.dresscode-card p {
-  margin: 0;
-  line-height: 1.95;
-}
-
-.dresscode-grid {
+.dresscode-list {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
-.dresscode-card {
-  padding: 16px;
-  border-radius: 16px;
+.dresscode-list p {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.86);
   border: 1px solid #d8e2d4;
-}
-
-.dresscode-card h4 {
-  margin: 0 0 8px;
-  font-size: 0.98rem;
-  color: var(--accent);
+  line-height: 1.85;
 }
 
 .deadline-note {
