@@ -457,6 +457,11 @@ body {
   text-align: center;
 }
 
+.dresscode-intro {
+  margin: 0 0 14px;
+  line-height: 1.9;
+}
+
 .dresscode-list {
   display: grid;
   gap: 10px;
