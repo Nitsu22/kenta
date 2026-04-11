@@ -548,6 +548,22 @@ legend {
   gap: 6px;
 }
 
+.bus-usage-list {
+  display: grid;
+  gap: 14px;
+}
+
+.bus-usage-item {
+  display: grid;
+  gap: 8px;
+}
+
+.bus-usage-label {
+  margin: 0;
+  font-weight: 600;
+  color: var(--ink);
+}
+
 label {
   font-weight: 500;
 }
