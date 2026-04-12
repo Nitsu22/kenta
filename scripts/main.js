@@ -93,7 +93,7 @@
     const payload = {
       attendance_status: String(formData.get("attendance_status") || "attend"),
       stay_0710: String(formData.get("stay_0710") || "希望する"),
-      bus_use: String(formData.get("bus_use") || "希望する"),
+      bus_use: String(formData.get("bus_use") || "往路"),
       guest_name: String(formData.get("guest_name") || ""),
       telephone: String(formData.get("telephone") || ""),
       email: String(formData.get("email") || ""),
@@ -119,7 +119,7 @@
       saveInfoCheckbox.checked = Boolean(data.save_info);
       setRadioValue("attendance_status", data.attendance_status || "attend");
       setRadioValue("stay_0710", data.stay_0710 || "希望する");
-      setRadioValue("bus_use", data.bus_use || "希望する");
+      setRadioValue("bus_use", data.bus_use || "往路");
 
       const valueFieldMap = {
         guest_name: "guest_name",

@@ -199,10 +199,22 @@
 
           <fieldset>
             <legend>送迎バス利用希望</legend>
-            <div class="chip-group">
+            <div class="chip-group bus-choice-group">
               <label class="chip">
-                <input type="radio" name="bus_use" value="希望する" checked required />
-                <span>希望する</span>
+                <input type="radio" name="bus_use" value="往路" checked required />
+                <span>往路</span>
+              </label>
+              <label class="chip">
+                <input type="radio" name="bus_use" value="復路(7/10 18:45発)" required />
+                <span>復路(7/10 18:45発)</span>
+              </label>
+              <label class="chip">
+                <input type="radio" name="bus_use" value="復路(7/11 8:50発)" required />
+                <span>復路(7/11 8:50発)</span>
+              </label>
+              <label class="chip">
+                <input type="radio" name="bus_use" value="復路(7/11 10:50発)" required />
+                <span>復路(7/11 10:50発)</span>
               </label>
               <label class="chip">
                 <input type="radio" name="bus_use" value="希望しない" required />

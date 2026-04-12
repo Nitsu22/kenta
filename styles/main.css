@@ -552,6 +552,10 @@ legend {
   gap: 10px;
 }
 
+.bus-choice-group .chip span {
+  min-width: 180px;
+}
+
 .chip input {
   position: absolute;
   opacity: 0;
