@@ -14,20 +14,54 @@
   }
 
   const draftStorageKey = config.draftStorageKey || "museum_invitation_form_v1";
+  const submitButtonLabel = submitButton?.textContent || "送信する";
 
   let companionIndex = 0;
 
   function setStatus(message, type) {
+    if (!formStatus) {
+      return;
+    }
+
     formStatus.textContent = message || "";
-    formStatus.classList.remove("is-error", "is-success");
+    formStatus.classList.remove("is-error", "is-success", "is-pending");
+    formStatus.setAttribute("role", type === "error" ? "alert" : "status");
+    formStatus.setAttribute("aria-live", type === "error" ? "assertive" : "polite");
     if (type === "error") {
       formStatus.classList.add("is-error");
     }
     if (type === "success") {
       formStatus.classList.add("is-success");
     }
+    if (type === "pending") {
+      formStatus.classList.add("is-pending");
+    }
   }
 
+  function showStatusMessage(message, type) {
+    setStatus(message, type);
+    if (!formStatus || !message) {
+      return;
+    }
+
+    formStatus.scrollIntoView({ block: "center", behavior: "smooth" });
+    if (type === "error" || type === "success") {
+      formStatus.focus({ preventScroll: true });
+    }
+  }
+
+  function setSubmitLoading(isLoading) {
+    if (!submitButton) {
+      return;
+    }
+
+    submitButton.disabled = isLoading;
+    submitButton.textContent = isLoading ? "送信中..." : submitButtonLabel;
+  }
+
+  function getSubmitErrorMessage() {
+    return "送信できませんでした。入力内容は消えていません。通信状況を確認して、もう一度「送信する」を押してください。うまくいかない場合は、この画面を閉じずに主催者へご連絡ください。";
+  }
 
   function buildCompanionRow(values) {
     const row = document.createElement("div");
@@ -252,6 +286,11 @@
       return;
     }
 
+    if (navigator.onLine === false) {
+      showStatusMessage("インターネットに接続されていないため、送信できませんでした。接続を確認してから、もう一度「送信する」を押してください。", "error");
+      return;
+    }
+
     const formData = new FormData(form);
     const payload = {
       source_url: window.location.href,
@@ -272,7 +311,8 @@
     };
 
     try {
-      submitButton.disabled = true;
+      setSubmitLoading(true);
+      setStatus("送信中です。画面を閉じずにお待ちください。", "pending");
       await submitToSupabase(payload, null);
 
       if (payload.save_info) {
@@ -281,14 +321,14 @@
         localStorage.removeItem(draftStorageKey);
       }
 
-      setStatus("送信が完了しました。ご回答ありがとうございました。", "success");
       form.reset();
       resetCompanions();
-      window.scrollTo({ top: form.offsetTop - 40, behavior: "smooth" });
+      showStatusMessage("送信が完了しました。ご回答ありがとうございました。", "success");
     } catch (error) {
-      setStatus(`送信に失敗しました: ${error.message || "不明なエラー"}`, "error");
+      console.error("RSVP submission failed", error);
+      showStatusMessage(getSubmitErrorMessage(), "error");
     } finally {
-      submitButton.disabled = false;
+      setSubmitLoading(false);
     }
   }
 

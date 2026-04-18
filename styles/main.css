@@ -724,15 +724,34 @@ textarea:focus {
 
 .form-status {
   margin: 0;
-  min-height: 1.4em;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
   color: var(--muted);
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.form-status:not(:empty) {
+  padding: 12px 14px;
+  border: 1px solid #c9d7d2;
+  background: #f3f8f5;
+}
+
+.form-status.is-pending {
+  color: var(--accent);
 }
 
 .form-status.is-error {
+  border-color: #d9a3a3;
+  background: #fff1f1;
   color: var(--error);
 }
 
 .form-status.is-success {
+  border-color: #a6cfb5;
+  background: #eef8f2;
   color: #1f6b3f;
 }
 
