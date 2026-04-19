@@ -4,8 +4,6 @@
   const form = document.getElementById("rsvp-form");
   const companionsContainer = document.getElementById("companions");
   const addCompanionButton = document.getElementById("add-companion");
-  const postcodeInput = document.getElementById("postcode");
-  const saveInfoCheckbox = document.getElementById("save_info");
   const formStatus = document.getElementById("form-status");
   const submitButton = document.getElementById("submit-btn");
 
@@ -13,7 +11,6 @@
     return;
   }
 
-  const draftStorageKey = config.draftStorageKey || "museum_invitation_form_v1";
   const submitButtonLabel = submitButton?.textContent || "送信する";
 
   let companionIndex = 0;
@@ -85,9 +82,6 @@
     if (removeButton) {
       removeButton.addEventListener("click", () => {
         row.remove();
-        if (saveInfoCheckbox.checked) {
-          saveDraft();
-        }
       });
     }
 
@@ -110,75 +104,20 @@
     companionIndex = 0;
   }
 
-  function setRadioValue(name, value) {
-    const inputs = form.querySelectorAll(`input[name="${name}"]`);
-    inputs.forEach((input) => {
-      input.checked = input.value === value;
-    });
-  }
+  function installCustomValidationMessages() {
+    const guestNameInput = document.getElementById("guest_name");
+    const telephoneInput = document.getElementById("telephone");
 
-  function saveDraft() {
-    if (!saveInfoCheckbox.checked) {
-      localStorage.removeItem(draftStorageKey);
-      return;
-    }
-
-    const formData = new FormData(form);
-    const payload = {
-      attendance_status: String(formData.get("attendance_status") || "attend"),
-      stay_0710: String(formData.get("stay_0710") || "希望する"),
-      bus_use: String(formData.get("bus_use") || "往路"),
-      guest_name: String(formData.get("guest_name") || ""),
-      telephone: String(formData.get("telephone") || ""),
-      email: String(formData.get("email") || ""),
-      allergy_note: String(formData.get("allergy_note") || ""),
-      companions: getCompanions(),
-      save_info: true
-    };
-    localStorage.setItem(draftStorageKey, JSON.stringify(payload));
-  }
-
-  function applyDraft() {
-    const raw = localStorage.getItem(draftStorageKey);
-    if (!raw) {
-      return;
-    }
-
-    try {
-      const data = JSON.parse(raw);
-      if (!data || typeof data !== "object") {
-        return;
-      }
-
-      saveInfoCheckbox.checked = Boolean(data.save_info);
-      setRadioValue("attendance_status", data.attendance_status || "attend");
-      setRadioValue("stay_0710", data.stay_0710 || "希望する");
-      setRadioValue("bus_use", data.bus_use || "往路");
-
-      const valueFieldMap = {
-        guest_name: "guest_name",
-        telephone: "telephone",
-        email: "email",
-        allergy_note: "allergy_note"
-      };
-
-      Object.entries(valueFieldMap).forEach(([id, key]) => {
-        const field = document.getElementById(id);
-        if (field && typeof data[key] === "string") {
-          field.value = data[key];
+    if (guestNameInput) {
+      guestNameInput.addEventListener("input", () => {
+        if (guestNameInput.value && guestNameInput.value.trim().length === 0) {
+          guestNameInput.setCustomValidity("お名前を入力してください。");
+        } else {
+          guestNameInput.setCustomValidity("");
         }
       });
-
-      resetCompanions();
-      const companionValues = Array.isArray(data.companions) ? data.companions : [];
-      companionValues.forEach((item) => buildCompanionRow(item));
-    } catch (_error) {
-      // 保存データが壊れている場合は無視。
     }
-  }
 
-  function installCustomValidationMessages() {
-    const telephoneInput = document.getElementById("telephone");
     if (telephoneInput) {
       telephoneInput.addEventListener("input", () => {
         const regex = /^\d{8,11}$/;
@@ -252,7 +191,7 @@
       throw new Error(initError);
     }
 
-    let messageImageUrl = null;
+    let messageImageUrl = "なし";
     if (imageFile && imageFile.size > 0) {
       const fileExt = imageFile.name.includes(".") ? imageFile.name.split('.').pop() : "jpg";
       const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
@@ -264,7 +203,7 @@
         throw uploadError;
       }
       const { data: publicUrlData } = client.storage.from(bucket).getPublicUrl(fileName);
-      messageImageUrl = publicUrlData?.publicUrl || null;
+      messageImageUrl = publicUrlData?.publicUrl || "なし";
     }
 
     const table = config.supabaseTable || "invitation_responses";
@@ -292,17 +231,25 @@
     }
 
     const formData = new FormData(form);
+    const guestNameInput = document.getElementById("guest_name");
+    if (guestNameInput && String(formData.get("guest_name") || "").trim().length === 0) {
+      guestNameInput.setCustomValidity("お名前を入力してください。");
+      form.reportValidity();
+      setStatus("入力内容を確認してください。", "error");
+      return;
+    }
+
     const payload = {
       source_url: window.location.href,
       attendance_status: String(formData.get("attendance_status") || ""),
-      stay_0710: String(formData.get("stay_0710") || ""),
-      bus_use: String(formData.get("bus_use") || ""),
+      stay_0710: String(formData.get("stay_0710") || "記入なし"),
+      bus_use: String(formData.get("bus_use") || "記入なし"),
       guest_name: String(formData.get("guest_name") || "").trim(),
       telephone: String(formData.get("telephone") || "").trim(),
       email: String(formData.get("email") || "").trim(),
-      allergy_note: String(formData.get("allergy_note") || "").trim() || null,
+      allergy_note: String(formData.get("allergy_note") || "").trim() || "なし",
       companions: getCompanions(),
-      save_info: formData.get("save_info") === "1",
+      save_info: false,
       metadata: {
         language: navigator.language,
         user_agent: navigator.userAgent,
@@ -314,12 +261,6 @@
       setSubmitLoading(true);
       setStatus("送信中です。画面を閉じずにお待ちください。", "pending");
       await submitToSupabase(payload, null);
-
-      if (payload.save_info) {
-        saveDraft();
-      } else {
-        localStorage.removeItem(draftStorageKey);
-      }
 
       form.reset();
       resetCompanions();
@@ -334,34 +275,10 @@
 
   addCompanionButton?.addEventListener("click", () => {
     buildCompanionRow();
-    if (saveInfoCheckbox.checked) {
-      saveDraft();
-    }
-  });
-
-  saveInfoCheckbox.addEventListener("change", () => {
-    if (saveInfoCheckbox.checked) {
-      saveDraft();
-    } else {
-      localStorage.removeItem(draftStorageKey);
-    }
-  });
-
-  form.addEventListener("input", () => {
-    if (saveInfoCheckbox.checked) {
-      saveDraft();
-    }
-  });
-
-  form.addEventListener("change", () => {
-    if (saveInfoCheckbox.checked) {
-      saveDraft();
-    }
   });
 
   form.addEventListener("submit", onSubmit);
 
-  applyDraft();
   installCustomValidationMessages();
   startHeroSlideshow();
   startCountdown();

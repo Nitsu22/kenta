@@ -187,11 +187,11 @@
             <legend>7月10日ご宿泊</legend>
             <div class="chip-group">
               <label class="chip">
-                <input type="radio" name="stay_0710" value="希望する" checked required />
+                <input type="radio" name="stay_0710" value="希望する" />
                 <span>希望する</span>
               </label>
               <label class="chip">
-                <input type="radio" name="stay_0710" value="希望しない" required />
+                <input type="radio" name="stay_0710" value="希望しない" />
                 <span>希望しない</span>
               </label>
             </div>
@@ -201,23 +201,23 @@
             <legend>送迎バス利用希望</legend>
             <div class="chip-group bus-choice-group">
               <label class="chip">
-                <input type="radio" name="bus_use" value="往路" checked required />
+                <input type="radio" name="bus_use" value="往路" />
                 <span>往路</span>
               </label>
               <label class="chip">
-                <input type="radio" name="bus_use" value="復路(7/10 18:45発)" required />
+                <input type="radio" name="bus_use" value="復路(7/10 18:45発)" />
                 <span>復路(7/10 18:45発)</span>
               </label>
               <label class="chip">
-                <input type="radio" name="bus_use" value="復路(7/11 8:50発)" required />
+                <input type="radio" name="bus_use" value="復路(7/11 8:50発)" />
                 <span>復路(7/11 8:50発)</span>
               </label>
               <label class="chip">
-                <input type="radio" name="bus_use" value="復路(7/11 10:50発)" required />
+                <input type="radio" name="bus_use" value="復路(7/11 10:50発)" />
                 <span>復路(7/11 10:50発)</span>
               </label>
               <label class="chip">
-                <input type="radio" name="bus_use" value="希望しない" required />
+                <input type="radio" name="bus_use" value="希望しない" />
                 <span>希望しない</span>
               </label>
             </div>
@@ -278,11 +278,6 @@
             <div id="companions" class="companion-list"></div>
             <button type="button" id="add-companion" class="secondary-btn">お連れ様を追加</button>
           </fieldset>
-
-          <label class="save-toggle">
-            <input type="checkbox" id="save_info" name="save_info" value="1" />
-            情報を保存し、次回以降の入力をスキップする
-          </label>
 
           <button type="submit" class="primary-btn" id="submit-btn">送信する</button>
           <p id="form-status" class="form-status" role="status" aria-live="polite" tabindex="-1"></p>

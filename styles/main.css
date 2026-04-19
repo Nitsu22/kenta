@@ -380,7 +380,7 @@ body {
 
 .schedule-label {
   font-weight: 600;
-  color: var(--text);
+  color: var(--ink);
 }
 
 .venue-block {
@@ -709,17 +709,6 @@ textarea:focus {
 
 .primary-btn:hover:not(:disabled) {
   background: #173f3b;
-}
-
-.save-toggle {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 400;
-}
-
-.save-toggle input {
-  width: auto;
 }
 
 .form-status {

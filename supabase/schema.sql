@@ -5,25 +5,16 @@ create table if not exists public.invitation_responses (
   created_at timestamptz not null default now(),
   source_url text,
   attendance_status text not null check (attendance_status in ('attend', 'absent')),
-  guest_type text not null check (guest_type in ('groom', 'bride')),
-  relation text not null,
-  sub_relation text not null,
-  last_name text not null,
-  first_name text not null,
-  last_name_kana text not null,
-  first_name_kana text not null,
-  gender text not null check (gender in ('male', 'female', 'other')),
   telephone text not null,
-  postcode text not null,
-  address text not null,
   email text not null,
-  allergies text[] not null default '{}',
-  allergy_note text,
+  allergy_note text default 'なし',
   companions jsonb not null default '[]'::jsonb,
-  message_image_url text,
-  message text,
+  message_image_url text default 'なし',
   save_info boolean not null default false,
-  metadata jsonb not null default '{}'::jsonb
+  metadata jsonb not null default '{}'::jsonb,
+  bus_use text not null default '記入なし',
+  stay_0710 text not null default '記入なし',
+  guest_name text not null default ''
 );
 
 create index if not exists invitation_responses_created_at_idx
