@@ -130,6 +130,32 @@
     }
   }
 
+  function installBusChoiceBehavior() {
+    const busInputs = Array.from(form.querySelectorAll('input[name="bus_use"]'));
+    const noBusInput = busInputs.find((input) => input.value === "希望しない");
+
+    busInputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        if (!input.checked) {
+          return;
+        }
+
+        if (input === noBusInput) {
+          busInputs.forEach((otherInput) => {
+            if (otherInput !== input) {
+              otherInput.checked = false;
+            }
+          });
+          return;
+        }
+
+        if (noBusInput) {
+          noBusInput.checked = false;
+        }
+      });
+    });
+  }
+
   function startHeroSlideshow() {
     const slides = Array.from(document.querySelectorAll(".hero-slide"));
     if (slides.length <= 1) {
@@ -231,6 +257,10 @@
     }
 
     const formData = new FormData(form);
+    const selectedBusUses = formData
+      .getAll("bus_use")
+      .map((value) => String(value))
+      .filter(Boolean);
     const guestNameInput = document.getElementById("guest_name");
     if (guestNameInput && String(formData.get("guest_name") || "").trim().length === 0) {
       guestNameInput.setCustomValidity("お名前を入力してください。");
@@ -243,7 +273,7 @@
       source_url: window.location.href,
       attendance_status: String(formData.get("attendance_status") || ""),
       stay_0710: String(formData.get("stay_0710") || "記入なし"),
-      bus_use: String(formData.get("bus_use") || "記入なし"),
+      bus_use: selectedBusUses.length > 0 ? selectedBusUses.join(", ") : "記入なし",
       guest_name: String(formData.get("guest_name") || "").trim(),
       telephone: String(formData.get("telephone") || "").trim(),
       email: String(formData.get("email") || "").trim(),
@@ -280,6 +310,7 @@
   form.addEventListener("submit", onSubmit);
 
   installCustomValidationMessages();
+  installBusChoiceBehavior();
   startHeroSlideshow();
   startCountdown();
 })();
