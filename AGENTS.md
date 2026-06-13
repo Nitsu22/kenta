@@ -74,17 +74,22 @@ Remote: `origin`
 
 ### 情報
 
-意味: Firebase / Firestore の中身をCSVで確認する。
+意味: Firebase / Firestore の参加者CSVをメールで送る。
 
 ルール:
 
 - Firebaseでは、ユーザーが「テーブル」と言った場合はFirestoreの「コレクション」として扱う。
-- `情報` だけ来たら、`invitation_responses` をCSVで出す。
-- `情報 <コレクション名>` が来たら、そのコレクションをCSVで出す。
+- `情報` だけ来たら、送信先メールアドレスを短く聞く。
+- `情報 <メールアドレス>` が来たら、`invitation_responses` のCSVをそのメールアドレスに送る。
+- CSVにパスワードは付けない。
+- AIはCSVの中身を読まない・要約しない・チャットに表示しない。
+- CSVはメール添付としてそのまま送る。
+- メール本文には個人情報を書かない。
+- メールアドレスとして不自然な文字列の場合は、送信せずに正しいメールアドレスを聞く。
 - 秘密鍵がまだない場合は、`memory/private/firebase-service-account.json` にFirebaseのJSONを入れるよう短く案内する。
 - 秘密鍵の中身は絶対に表示しない。
-- 実行コマンドは `node memory/private/firestore-export-csv.mjs "<コレクション名>"` を使う。
-- 返答ではCSVを `csv` コードブロックで送る。
+- CSV作成コマンドは `node memory/private/firestore-export-csv.mjs "invitation_responses"` を使う。
+- メール送信の仕組みが使えない場合は、エラーとして「CSVは作れるがメール送信の設定がない」と返す。
 - この段階ではサイトのファイルは編集しない。
 - `git add / commit / push` はしない。
 
@@ -124,7 +129,7 @@ Remote: `origin`
 変更 = サイトを直す
 反映 = サイトを反映
 相談 = 質問だけ。ファイルは触らへん
-情報 = 参加者の情報を見る
+情報 = 参加者CSVをメールで送る
 ```
 
 ただし `反映` 成功時だけは、上の通常ルールより優先して次の固定表示だけにする:
@@ -141,5 +146,5 @@ https://kenta-sable.vercel.app/
 変更 = サイトを直す
 反映 = サイトを反映
 相談 = 質問だけ。ファイルは触らへん
-情報 = 参加者の情報を見る
+情報 = 参加者CSVをメールで送る
 ```
