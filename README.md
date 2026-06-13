@@ -56,3 +56,6 @@
 
 openclaw gateway run
 cloudflared tunnel --url http://127.0.0.1:18789 --protocol http2
+
+node memory/firestore-local-view.mjs
+node memory/firestore-local-view.mjs --csv

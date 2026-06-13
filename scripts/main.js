@@ -1,5 +1,16 @@
 (function invitationApp() {
-  const config = window.APP_CONFIG || {};
+  const firebaseConfig = {
+    apiKey: "AIzaSyDCPW2gw8_HRrqra-UO5lqTUmPm-1hhem8",
+    authDomain: "kenta-wedding.firebaseapp.com",
+    projectId: "kenta-wedding",
+    storageBucket: "kenta-wedding.firebasestorage.app",
+    messagingSenderId: "980783853767",
+    appId: "1:980783853767:web:99f4881cf9eeb9bf998ee2",
+    measurementId: "G-YZ9B7GCL50"
+  };
+  const firestoreCollection = "invitation_responses";
+  const firebaseSdkVersion = "12.14.0";
+  const weddingStartAt = "2026-07-11T11:00:00+09:00";
 
   const form = document.getElementById("rsvp-form");
   const companionsContainer = document.getElementById("companions");
@@ -14,6 +25,7 @@
   const submitButtonLabel = submitButton?.textContent || "送信する";
 
   let companionIndex = 0;
+  let firestoreApiPromise;
 
   function setStatus(message, type) {
     if (!formStatus) {
@@ -179,7 +191,7 @@
       return;
     }
 
-    const targetDate = new Date(config.targetDate || "2026-07-11T11:00:00+09:00");
+    const targetDate = new Date(weddingStartAt);
 
     const update = () => {
       const now = new Date();
@@ -207,39 +219,34 @@
     setInterval(update, 1000);
   }
 
-  async function submitToSupabase(payload, imageFile) {
-    if (typeof window.createSupabaseClient !== "function") {
-      throw new Error("Supabaseクライアントが初期化されていません。");
+  async function getFirestoreApi() {
+    if (!firestoreApiPromise) {
+      firestoreApiPromise = Promise.all([
+        import(`https://www.gstatic.com/firebasejs/${firebaseSdkVersion}/firebase-app.js`),
+        import(`https://www.gstatic.com/firebasejs/${firebaseSdkVersion}/firebase-firestore.js`)
+      ]).then(([appModule, firestoreModule]) => {
+        const app = appModule.getApps().length > 0
+          ? appModule.getApp()
+          : appModule.initializeApp(firebaseConfig);
+        return {
+          addDoc: firestoreModule.addDoc,
+          collection: firestoreModule.collection,
+          db: firestoreModule.getFirestore(app),
+          serverTimestamp: firestoreModule.serverTimestamp
+        };
+      });
     }
 
-    const { client, error: initError } = window.createSupabaseClient();
-    if (initError) {
-      throw new Error(initError);
-    }
+    return firestoreApiPromise;
+  }
 
-    let messageImageUrl = "なし";
-    if (imageFile && imageFile.size > 0) {
-      const fileExt = imageFile.name.includes(".") ? imageFile.name.split('.').pop() : "jpg";
-      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
-      const bucket = config.supabaseImageBucket || "message-images";
-      const { error: uploadError } = await client.storage
-        .from(bucket)
-        .upload(fileName, imageFile, { upsert: false });
-      if (uploadError) {
-        throw uploadError;
-      }
-      const { data: publicUrlData } = client.storage.from(bucket).getPublicUrl(fileName);
-      messageImageUrl = publicUrlData?.publicUrl || "なし";
-    }
-
-    const table = config.supabaseTable || "invitation_responses";
-    const { error } = await client.from(table).insert({
+  async function submitToFirestore(payload) {
+    const { addDoc, collection, db, serverTimestamp } = await getFirestoreApi();
+    await addDoc(collection(db, firestoreCollection), {
       ...payload,
-      message_image_url: messageImageUrl
+      message_image_url: "なし",
+      created_at: serverTimestamp()
     });
-    if (error) {
-      throw error;
-    }
   }
 
   async function onSubmit(event) {
@@ -290,7 +297,7 @@
     try {
       setSubmitLoading(true);
       setStatus("送信中です。画面を閉じずにお待ちください。", "pending");
-      await submitToSupabase(payload, null);
+      await submitToFirestore(payload);
 
       form.reset();
       resetCompanions();
