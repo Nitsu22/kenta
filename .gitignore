@@ -4,3 +4,5 @@ memory/import-firestore-csv.mjs
 memory/firestore-local-view.mjs
 memory/private/
 memory/exports/
+**/firebase-service-account*.json
+**/*service-account*.json
